@@ -1,5 +1,6 @@
-import csv
 import re
+import sys
+from csv import writer
 
 def main():
 	#string to be parsed
@@ -38,7 +39,11 @@ def main():
 			for k in range(len(s[j][i])):
 				s[j][i][k] = re.sub('</td.*|</th.*', '', s[j][i][k], flags=re.IGNORECASE).strip()
 
-	print(s)
+	my_writer = writer(sys.stdout)
+	for i in range(len(s)):
+		print('TABLE ' + str(i + 1) + ':')
+		my_writer.writerows(s[i])
+		print()
 
 if __name__ == '__main__':
 	main()
