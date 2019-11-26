@@ -13,26 +13,30 @@ def main():
 	#replaces all white space including new lines with one space
 	s = re.sub('\s+', ' ', s, flags=re.IGNORECASE)
 
-	#removes the </table...>
-	s = re.sub('</table.*?>', '', s, flags=re.IGNORECASE)
-	#splits on <table...>
+	#splits on <table...> creatig a list of tables
 	s = re.split('<table.*?>', s, flags=re.IGNORECASE)
 	#removes the first element of the list because it is always blank or useless
 	s = s[1:]
 	
+	#splits up each table into its rows
 	for j in range(len(s)):
-		#removes the </tr...>
-		s[j] = re.sub('</tr.*?>', '', s[j], flags=re.IGNORECASE)
-		#splits on <tr...>
+		#removes the </table...> and everything after it too
+		s[j] = re.sub('</table.*?>', '', s[j], flags=re.IGNORECASE)
+		
 		s[j] = re.split('<tr.*?>', s[j], flags=re.IGNORECASE)
-		#removes the first element of the list because it is always blank or useless
 		s[j] = s[j][1:]
 		
 		#splits each table row up into its cells
 		for i in range(len(s[j])):
-			s[j][i] = re.sub('</td.*?>', '', s[j][i], flags=re.IGNORECASE)
-			s[j][i] = re.split('<td.*?>', s[j][i], flags=re.IGNORECASE)
+			#removes the </tr like the </table above
+			s[j][i] = re.sub('</tr.*', '', s[j][i], flags=re.IGNORECASE)
+
+			s[j][i] = re.split('<td.*?>|<th.*?>', s[j][i], flags=re.IGNORECASE)
 			s[j][i] = s[j][i][1:]
+
+			#removes the </td or </th like the </table above
+			for k in range(len(s[j][i])):
+				s[j][i][k] = re.sub('</td.*|</th.*', '', s[j][i][k], flags=re.IGNORECASE)
 
 	print(s)
 
