@@ -34,9 +34,9 @@ def main():
 			s[j][i] = re.split('<td.*?>|<th.*?>', s[j][i], flags=re.IGNORECASE)
 			s[j][i] = s[j][i][1:]
 
-			#removes the </td or </th like the </table above
+			#removes the </td or </th like the </table above and trims trailing or leading whitespace
 			for k in range(len(s[j][i])):
-				s[j][i][k] = re.sub('</td.*|</th.*', '', s[j][i][k], flags=re.IGNORECASE)
+				s[j][i][k] = re.sub('</td.*|</th.*', '', s[j][i][k], flags=re.IGNORECASE).strip()
 
 	print(s)
 
