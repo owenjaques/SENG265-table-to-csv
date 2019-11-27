@@ -23,8 +23,6 @@ def main():
 	for j in range(len(s)):
 		#removes the </table...> and everything after it too
 		s[j] = re.sub('</table.*?>', '', s[j], flags=re.IGNORECASE)
-		
-		#TODO: add something here to find the amount of <td or <th flags max function? findall maybe?
 
 		s[j] = re.split('<tr.*?>', s[j], flags=re.IGNORECASE)
 		s[j] = s[j][1:]
