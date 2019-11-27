@@ -24,8 +24,16 @@ def main():
 		#removes the </table...> and everything after it too
 		s[j] = re.sub('</table.*?>', '', s[j], flags=re.IGNORECASE)
 		
+		#TODO: add something here to find the amount of <td or <th flags max function? findall maybe?
+
 		s[j] = re.split('<tr.*?>', s[j], flags=re.IGNORECASE)
 		s[j] = s[j][1:]
+
+		#finds the maximum row size so each row can have the same length by:
+		# finding the number of <td>s or <th>s in each row
+		# finding the maximum among them
+		# then using findall again to find the amount of <td>s and <th>s in it
+		max_row_size = len(re.findall('<td.*?>|<th.*?>', max(s[j], key=lambda x: len(re.findall('<td.*?>|<th.*?>', x, flags=re.IGNORECASE))), flags=re.IGNORECASE))
 		
 		#splits each table row up into its cells
 		for i in range(len(s[j])):
@@ -38,6 +46,10 @@ def main():
 			#removes the </td or </th like the </table above and trims trailing or leading whitespace
 			for k in range(len(s[j][i])):
 				s[j][i][k] = re.sub('</td.*|</th.*', '', s[j][i][k], flags=re.IGNORECASE).strip()
+
+			#adds empty cells to each row so that they all have the same size
+			while len(s[j][i]) < max_row_size:
+				s[j][i].append('')
 
 	my_writer = writer(sys.stdout)
 	for i in range(len(s)):
