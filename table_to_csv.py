@@ -12,7 +12,7 @@ def main():
 			break
 
 	#replaces all white space including new lines with one space
-	s = re.sub('\s+', ' ', s, flags=re.IGNORECASE)
+	s = re.sub(r'\s+', ' ', s, flags=re.IGNORECASE)
 
 	#splits on <table...> creatig a list of tables
 	s = re.split('<table.*?>', s, flags=re.IGNORECASE)
@@ -53,7 +53,8 @@ def main():
 	for i in range(len(s)):
 		print('TABLE ' + str(i + 1) + ':')
 		my_writer.writerows(s[i])
-		print()
+		if i != len(s) - 1:
+			print()
 
 if __name__ == '__main__':
 	main()
