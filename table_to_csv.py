@@ -49,7 +49,7 @@ def main():
 			while len(s[j][i]) < max_row_size:
 				s[j][i].append('')
 
-	my_writer = writer(sys.stdout)
+	my_writer = writer(sys.stdout, lineterminator='\n')
 	for i in range(len(s)):
 		print('TABLE ' + str(i + 1) + ':')
 		my_writer.writerows(s[i])
